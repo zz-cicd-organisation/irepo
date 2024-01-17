@@ -34,4 +34,4 @@ jobs:
 
       - env:
           MESSAGE: ${{ toJSON(github.event) }}
-        run: echo $MESSAGE
+        run: echo $MESSAGE | jq .
