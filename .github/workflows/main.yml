@@ -12,7 +12,7 @@ on:
   repository_dispatch:
     types: [ "trigger" ]
 
-  deployment:
+#  deployment:
 #    types: [ "created" ]
 
   deployment_status:
