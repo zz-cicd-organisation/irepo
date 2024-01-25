@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: trigger deploy of ${{ github.event.inputs.app }} from ${{ github.ref }} to ${{ github.event.inputs.environment }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           gh api \
           --method POST \
