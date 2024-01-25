@@ -7,6 +7,7 @@ on:
         type: choice
         options:
           - abcd
+          - efgh
         required: true
         description: environment to deploy to
       app:
@@ -32,4 +33,6 @@ jobs:
           /repos/${{ github.repository }}/deployments \
           -f ref='${{ github.ref }}' \
           -f payload='{ "deploy": "triggered", "env": "${{ github.event.inputs.environment }}", "app": "${{ github.event.inputs.app }}" }' \
-          -f description='Deploy request from branch' 
+          -f description='Deploy request from branch' \
+          -f environment '${{ github.event.inputs.environment }}-${{ github.ref_name }}'
+          
