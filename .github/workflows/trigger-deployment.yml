@@ -34,5 +34,5 @@ jobs:
           -f ref='${{ github.ref }}' \
           -f payload='{ "deploy": "triggered", "env": "${{ github.event.inputs.environment }}", "app": "${{ github.event.inputs.app }}" }' \
           -f description='Deploy request from branch' \
-          -f environment '${{ github.event.inputs.environment }}-${{ github.ref_name }}'
+          -f environment='${{ github.event.inputs.environment }}-${{ github.ref_name }}'
           
