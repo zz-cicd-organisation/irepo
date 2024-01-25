@@ -1,4 +1,4 @@
-name: BCI Trigger Deployment
+name: Trigger Deployment
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: trigger deploy of ${{ github.event.inputs.app }} from ${{ github.ref }} to ${{ github.event.inputs.environment }}
+      - name: trigger deploy # of ${{ github.event.inputs.app }} from ${{ github.ref }} to ${{ github.event.inputs.environment }}
         run: |
           gh api \
           --method POST \
