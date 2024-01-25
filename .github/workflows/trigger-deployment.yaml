@@ -1,0 +1,34 @@
+name: BCI Trigger Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options:
+          - abcd
+        required: true
+        description: environment to deploy to
+      app:
+        type: choice
+        options:
+          - admin-users
+
+        required: true
+        description: app to be deployed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: trigger deploy of ${{ github.event.inputs.app }} from ${{ github.ref }} to ${{ github.event.inputs.environment }}
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{ github.repository }}/deployments \
+          -f ref='${{ github.ref }}' \
+         -f payload='{ "deploy": "triggered", "env": "${{ github.event.inputs.environment }}", "app": "${{ github.event.inputs.app }}" }' \
+         -f description='Deploy request from branch' 
