@@ -59,6 +59,7 @@ jobs:
 #    secrets: inherit
 
   deploy:
+    needs: prepare
     name: deploying ${{ inputs.app }} to ${{ inputs.environment }}
     permissions:
       id-token: write
