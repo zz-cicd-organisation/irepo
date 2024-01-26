@@ -26,4 +26,5 @@ jobs:
       id-token: write
       contents: read
     secrets: inherit
-    uses: ./.github/workflows/${{ inputs.app }}.yml
+#    uses: "./.github/workflows/${{ inputs.app }}.yml"
+    uses: "./.github/workflows/service-one.yml"
