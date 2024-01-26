@@ -50,10 +50,10 @@ jobs:
             };
             await fs.writeFile(${{ env.DYNAMIC_WORKFLOW }}, JSON.stringify(workflow));
 
-  deploy:
-    needs: prepare
-    uses: ".github/workflows/dynamic.yml"
-    secrets: inherit
+#  deploy:
+#    needs: prepare
+#    uses: ".github/workflows/dynamic.yml"
+#    secrets: inherit
 
 #  deploy:
 #    name: deploying ${{ inputs.app }} to ${{ inputs.environment }}
