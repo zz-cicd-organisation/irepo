@@ -48,7 +48,7 @@ jobs:
                 }
               }
             };
-            await fs.writeFile(${{ env.DYNAMIC_WORKFLOW }}, JSON.stringify(workflow));
+            await fs.writeFile("${{ env.DYNAMIC_WORKFLOW }}", JSON.stringify(workflow));
 
 #  deploy:
 #    needs: prepare
