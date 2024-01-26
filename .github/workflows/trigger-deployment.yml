@@ -26,4 +26,4 @@ jobs:
       id-token: write
       contents: read
     secrets: inherit
-    uses: ./.github/actions/${{ inputs.app }}.yml
+    uses: ./.github/workflows/${{ inputs.app }}.yml
