@@ -19,13 +19,50 @@ on:
         required: true
         description: app to be deployed
 
+
+
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    env:
+      DYNAMIC_WORKFLOW: .github/workflows/dynamic.yml
+    steps:
+      - name: Setup dynamic workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const path = require('path');
+            const fs = require('fs/promises');
+            const workflow = {
+              name: "Dynamic workflow",
+              on: {
+                workflow_call: {}
+              },
+              jobs: {
+                actual-deploy: {
+                  uses: ".github/workflows/${{ inputs.app }}.yml@${{ github.ref_name }}",
+                  name: "Deploy ${{ inputs.app }} to ${{ inputs.environment }}",
+                  permissions: {
+                    id-token: "write",
+                    contents: "read"
+                  },
+                  secrets: "inherit"
+                }
+              }
+            };
+            await fs.writeFile(${{ env.DYNAMIC_WORKFLOW }}, JSON.stringify(workflow));
+
   deploy:
-    name: deploying ${{ inputs.app }} to ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
+    needs: prepare
+    uses: ".github/workflows/dynamic.yml"
     secrets: inherit
-#    uses: "./.github/workflows/${{ inputs.app }}.yml"
-    uses: "./.github/workflows/${{ github.event.inputs.app }}.yml"
+
+#  deploy:
+#    name: deploying ${{ inputs.app }} to ${{ inputs.environment }}
+#    permissions:
+#      id-token: write
+#      contents: read
+#    secrets: inherit
+##    uses: "./.github/workflows/${{ inputs.app }}.yml"
+#    uses: "./.github/workflows/${{ github.event.inputs.app }}.yml"
 # bluecodecom/pulumi-utils/.github/actions/assume-bci-gate@master
