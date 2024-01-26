@@ -15,49 +15,10 @@ on:
         options:
           - service-one
           - service-two
-
         required: true
         description: app to be deployed
 
 jobs:
-  prepare:
-    runs-on: ubuntu-latest
-    env:
-      DYNAMIC_WORKFLOW: .github/workflows/dynamic.yml
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup dynamic workflow
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const path = require('path');
-            const fs = require('fs/promises');
-            const workflow = {
-              name: "Dynamic workflow",
-              on: {
-                workflow_call: {}
-              },
-              jobs: {
-                "actual-deploy": {
-                  uses: ".github/workflows/${{ inputs.app }}.yml@${{ github.ref_name }}",
-                  name: "Deploy ${{ inputs.app }} to ${{ inputs.environment }}",
-                  permissions: {
-                    "id-token": "write",
-                    contents: "read"
-                  },
-                  secrets: "inherit"
-                }
-              }
-            };
-            await fs.writeFile("${{ env.DYNAMIC_WORKFLOW }}", JSON.stringify(workflow));
-
-#  deploy:
-#    needs: prepare
-#    uses: ".github/workflows/dynamic.yml"
-#    secrets: inherit
-
   deploy:
     needs: prepare
     name: deploying ${{ inputs.app }} to ${{ inputs.environment }}
