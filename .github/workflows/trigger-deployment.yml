@@ -27,4 +27,5 @@ jobs:
       contents: read
     secrets: inherit
 #    uses: "./.github/workflows/${{ inputs.app }}.yml"
-    uses: "./.github/workflows/service-one.yml"
+    uses: "./.github/workflows/${{ inputs.app }}.yml"
+# bluecodecom/pulumi-utils/.github/actions/assume-bci-gate@master
