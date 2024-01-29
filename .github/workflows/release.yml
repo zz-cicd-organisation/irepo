@@ -18,6 +18,12 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   release:
+#    permissions:
+#      contents: write
+#      packages: write
+#      pull-requests: write
+#      repository-projects: write
+#      statuses: write
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -38,13 +44,21 @@ jobs:
           echo ${{ steps.date.outputs.value }} > Release.txt
           echo ${{ steps.date.outputs.value }} > FILE2
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          custom_tag: app_${{ steps.date.outputs.value }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          github_token: ${{ secrets.GH_TOKEN }}
+
       - name: Release
         uses: softprops/action-gh-release@v1
 
         with:
           body: |
             ## Changes
-            - First release
+            - First release ${{ steps.date.outputs.value }}
           name: Release name ${{ steps.date.outputs.value }}
           draft: ${{ github.event.inputs.draft }}
           files: |
