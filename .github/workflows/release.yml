@@ -7,11 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       draft:
-        default: false
+        default: "false"
         description: 'Create a draft instead of a release'
         required: false
+        options:
+          - "false"
+          - "true"
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+          # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   release:
