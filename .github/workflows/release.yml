@@ -56,10 +56,11 @@ jobs:
         uses: softprops/action-gh-release@v1
 
         with:
+          tag_name: ${{ steps.tag_version.outputs.tag }}
           body: |
             ## Changes
             - First release ${{ steps.date.outputs.value }}
-          name: Release name ${{ steps.date.outputs.value }}
+          name: Release name ${{ steps.tag_version.outputs.tag }}
           draft: ${{ github.event.inputs.draft }}
           files: |
             Release.txt
