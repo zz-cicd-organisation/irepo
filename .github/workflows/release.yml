@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       draft:
+        type: choice
         default: "false"
         description: 'Create a draft instead of a release'
         required: false
@@ -33,7 +34,7 @@ jobs:
 
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: set date
         id: date
@@ -44,23 +45,40 @@ jobs:
           echo ${{ steps.date.outputs.value }} > Release.txt
           echo ${{ steps.date.outputs.value }} > FILE2
 
+      # - name: Bump version and push tag
+      #   id: tag_version
+      #   uses: anothrNick/github-tag-action@1.67.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     CUSTOM_TAG: app2_${{ steps.date.outputs.value }}
+
       - name: Bump version and push tag
         id: tag_version
-        uses: anothrNick/github-tag-action@1.67.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CUSTOM_TAG: app2_${{ steps.date.outputs.value }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-
+        uses: mathieudutour/github-tag-action@v6.1
         with:
-          tag_name: ${{ steps.tag_version.outputs.tag }}
-          body: |
-            ## Changes
-            - First release ${{ steps.date.outputs.value }}
-          name: Release name ${{ steps.tag_version.outputs.tag }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: app2_${{ steps.date.outputs.value }}
+          tag_prefix: ""
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
           draft: ${{ github.event.inputs.draft }}
-          files: |
+          artifacts: |
             Release.txt
             FILE2
+          
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: ${{ steps.tag_version.outputs.tag }}
+      #     body: |
+      #       ## Changes
+      #       - First release ${{ steps.date.outputs.value }}
+      #     name: Release name ${{ steps.tag_version.outputs.tag }}
+      #     draft: ${{ github.event.inputs.draft }}
+      #     files: |
+      #       Release.txt
+      #       FILE2
