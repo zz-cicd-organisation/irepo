@@ -50,10 +50,3 @@ runs:
                         "deploy_commit": '${{ inputs.deploy_commit }}'
                     },
           })
-
-
-#octokit.rest.repos.createDispatchEvent({
-#  owner,
-#  repo,
-#  event_type,
-#});

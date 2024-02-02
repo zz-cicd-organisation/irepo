@@ -18,8 +18,9 @@ jobs:
         uses: ./.github/actions/trigger-deployment-pulumi-utils
         with:
           app: ${{ env.SERVICE_NAME }}
-          deploy_commit: ${{ github.ref }}
+          deploy_commit: ${{ github.sha }}
           tier: ${{ env.TIER }}
+          org: ${{ env.ORG }}
           github-token: ${{ secrets.GH_TOKEN }}
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}

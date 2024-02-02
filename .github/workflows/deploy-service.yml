@@ -30,7 +30,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-
+      - run: |
+          echo DIR=${{ github.event.client_payload.service_name }}
+          echo STACK=${{ github.event.client_payload.org }}-clearing-${{ github.event.client_payload.tier }}
+          echo DEPLOY_COMMIT=${{ github.event.client_payload.deploy_commit }}
       - env:
           MESSAGE: ${{ toJSON(github.event) }}
         run: echo $MESSAGE | jq .
