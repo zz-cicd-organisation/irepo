@@ -1,4 +1,4 @@
-name: service-two - deploy - dev
+name: service-two
 
 # Controls when the workflow will run
 on:
