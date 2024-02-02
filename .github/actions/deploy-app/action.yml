@@ -34,7 +34,7 @@ runs:
         script: |
           await github.rest.actions.createWorkflowDispatch({
             owner: '${{ inputs.owner }}',
-            repo: '${{ inputs.repo }}'
+            repo: '${{ inputs.repo }}',
             workflow_id: '${{ inputs.app }}-deploy-${{ inputs.tier }}.yml',
             ref: '${{ inputs.ref }}'
           })
