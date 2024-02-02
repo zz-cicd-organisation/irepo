@@ -22,7 +22,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo empty
+      - name: Checkout repository
+        uses: actions/checkout@v4
       # output env and tier
       - name: split env and tier
         run: |
