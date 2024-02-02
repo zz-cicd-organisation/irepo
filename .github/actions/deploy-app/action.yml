@@ -1,0 +1,41 @@
+name: "trigger-deploy"
+description: "Trigger deployment by dispatching a workflow."
+
+inputs:
+  app:
+    required: true
+    description: app to be deployed
+  ref:
+    required: true
+    description: ref name where to run workflow (e.g. branch name)
+  tier:
+    required: true
+    description: tier the app is to be deployed to
+  github-token:
+    required: true
+    description: github token
+  owner:
+    required: false
+    description: owner of the repository
+    default: "bluecodecom"
+  repo:
+    required: false
+    description: repository name
+    default: "cobalt"
+
+runs:
+  using: "composite"
+  steps:
+    # nix build outputs a file called result
+    - name: Dispatch workflow
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: '${{ inputs.owner }}',
+            repo: '${{ inputs.repo }}'
+            workflow_id: '${{ inputs.app }}-deploy-${{ inputs.tier }}.yml',
+            ref: '${{ github.ref_name }}'
+          })
+
