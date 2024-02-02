@@ -12,8 +12,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-            echo "SERVICE_NAME=${SERVICE_NAME}"
-            echo "TIER=${TIER}"
-            echo "ORG=${ORG}"
-            echo "GITHUB_SHA=${GITHUB_SHA}"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: deploy service via pulumi
+        uses: ./.github/actions/trigger-deployment-pulumi-utils
+        with:
+          app: ${{ env.SERVICE_NAME }}
+          deploy_commit: ${{ github.ref }}
+          tier: ${{ env.TIER }}
+          github-token: ${{ secrets.GH_TOKEN }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}

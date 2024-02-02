@@ -1,0 +1,59 @@
+name: "trigger-deployment-pulumi-utils"
+description: "trigger-deployment-pulumi-utils"
+
+inputs:
+  app:
+    required: true
+    description: app to be deployed
+  tier:
+    required: true
+    description: tier the app is to be deployed to
+  org:
+    required: true
+    description: org the app is to be deployed to
+  github-token:
+    required: true
+    description: github token
+  owner:
+    required: false
+    description: owner of the repository
+    default: "bluecodecom"
+  repo:
+    required: false
+    description: repository name
+    default: "cobalt"
+  deploy_commit:
+    required: true
+    description: sha of the commit to deploy
+  event-type:
+    required: false
+    description: event type
+    default: "deploy-service"
+
+runs:
+  using: "composite"
+  steps:
+    # nix build outputs a file called result
+    - name: Dispatch workflow
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          await github.rest.repos.createDispatchEvent({
+            owner: '${{ inputs.owner }}',
+            repo: '${{ inputs.repo }}',            
+            event_type: '${{ inputs.event-type }}',
+            client_payload: {
+                        "service_name": '${{ inputs.app }}',
+                        "tier": '${{ inputs.tier }}',
+                        "org": '${{ inputs.org }}',
+                        "deploy_commit": '${{ inputs.deploy_commit }}'
+                    },
+          })
+
+
+#octokit.rest.repos.createDispatchEvent({
+#  owner,
+#  repo,
+#  event_type,
+#});

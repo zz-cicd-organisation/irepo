@@ -38,4 +38,3 @@ runs:
             workflow_id: '${{ inputs.app }}-deploy-${{ inputs.tier }}.yml',
             ref: '${{ inputs.ref }}'
           })
-
