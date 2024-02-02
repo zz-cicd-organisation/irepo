@@ -28,7 +28,7 @@ runs:
   steps:
     # nix build outputs a file called result
     - name: Dispatch workflow
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         github-token: ${{ inputs.github-token }}
         script: |
@@ -36,6 +36,6 @@ runs:
             owner: '${{ inputs.owner }}',
             repo: '${{ inputs.repo }}'
             workflow_id: '${{ inputs.app }}-deploy-${{ inputs.tier }}.yml',
-            ref: '${{ github.ref_name }}'
+            ref: '${{ inputs.ref }}'
           })
 
