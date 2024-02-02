@@ -26,16 +26,17 @@ jobs:
         uses: actions/checkout@v4
       # output env and tier
       - name: split env and tier
+        id: split
         run: |
-            echo "value=$(echo ${{ github.event.inputs.environment }} | cut -d'-' -f1)" >> $GITHUB_OUTPUT
-            echo "value=$(echo ${{ github.event.inputs.environment }} | cut -d'-' -f2)" >> $GITHUB_OUTPUT
+            echo "env=$(echo ${{ github.event.inputs.environment }} | cut -d'-' -f1)" >> $GITHUB_OUTPUT
+            echo "tier=$(echo ${{ github.event.inputs.environment }} | cut -d'-' -f2)" >> $GITHUB_OUTPUT
 
       - name: trigger deploy of ${{ github.event.inputs.app }} from ${{ github.ref }} to ${{ github.event.inputs.environment }}
         uses: ./.github/actions/deploy-app
         with:
           app: ${{ github.event.inputs.app }}
           ref: ${{ github.ref }}
-          tier: ${{ github.event.inputs.environment }}
+          tier: ${{ steps.split.outputs.tier }}
           github-token: ${{ secrets.GH_TOKEN }}
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
