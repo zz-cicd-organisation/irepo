@@ -36,6 +36,6 @@ jobs:
           app: ${{ github.event.inputs.app }}
           ref: ${{ github.ref }}
           tier: ${{ github.event.inputs.environment }}
-          github-token: ${{ secrets.BCMACHINE_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN }}
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
