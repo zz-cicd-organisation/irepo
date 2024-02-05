@@ -44,12 +44,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 
+#      - env:
+#          MESSAGE: ${{ fromJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]') }}
+#        run: echo $MESSAGE | jq .
+#        name: fromJSON
       - env:
-          MESSAGE: ${{ toJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]') }}
+          MESSAGE: ${{ join(fromJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]'), '-') }}
         run: echo $MESSAGE
-      - env:
-          MESSAGE: ${{ join(toJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]'), '-') }}
-        run: echo $MESSAGE
+        name: join
 
 #      - env:
 #          MESSAGE: ${{ join(fromJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]'), '-') }}
