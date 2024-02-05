@@ -51,7 +51,7 @@ jobs:
       - env:
           MESSAGE: ${{ format('{0}-{1}-{2}', inputs.org, inputs.unit, inputs.tier) }}
         run: echo $MESSAGE
-        if: !contains(format('{0}-{1}-{2}', inputs.org, inputs.unit, inputs.tier), '--')
+        if: ${{ !contains(format('{0}-{1}-{2}', inputs.org, inputs.unit, inputs.tier), '--') }}
         name: join
 
 #      - env:
