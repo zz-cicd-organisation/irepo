@@ -49,7 +49,7 @@ jobs:
 #        run: echo $MESSAGE | jq .
 #        name: fromJSON
       - env:
-          MESSAGE: ${{ format('{0}-{1}-{3}', input.org, input.unit, input.tier) }}
+          MESSAGE: ${{ format('{0}-{1}-{3}', inputs.org, inputs.unit, inputs.tier) }}
         run: echo $MESSAGE
         name: join
 
