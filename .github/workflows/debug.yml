@@ -49,8 +49,9 @@ jobs:
 #        run: echo $MESSAGE | jq .
 #        name: fromJSON
       - env:
-          MESSAGE: ${{ contains(format('{0}-{1}-{2}', inputs.org, inputs.unit, inputs.tier), '--') }}
+          MESSAGE: ${{ format('{0}-{1}-{3}', inputs.org, inputs.unit, inputs.tier) }}
         run: echo $MESSAGE
+        if: contains(format('{0}-{1}-{2}', inputs.org, inputs.unit, inputs.tier), '--')
         name: join
 
 #      - env:
