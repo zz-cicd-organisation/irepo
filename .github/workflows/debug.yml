@@ -30,7 +30,7 @@ on:
       unit:
         type: string
         required: false
-        default: ''
+        default: ""
         description: 'Unit of the deployment'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -45,10 +45,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 
       - env:
-          MESSAGE: ${{ fromJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]') }}
+          MESSAGE: ${{ toJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]') }}
         run: echo $MESSAGE
       - env:
-          MESSAGE: ${{ join(fromJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]'), '-') }}
+          MESSAGE: ${{ join(toJSON('["${{ inputs.org }}","${{ inputs.unit }}","${{ inputs.tier }}"]'), '-') }}
         run: echo $MESSAGE
 
 #      - env:
