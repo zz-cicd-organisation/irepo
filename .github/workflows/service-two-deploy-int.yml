@@ -1,4 +1,4 @@
-name: service-two - deploy - dev
+name: service-two - deploy - int
 
 on:
   workflow_dispatch:

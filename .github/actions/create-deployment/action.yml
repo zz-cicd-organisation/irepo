@@ -1,0 +1,44 @@
+name: "create-deployment"
+description: "create deployment event"
+
+inputs:
+  app:
+    required: true
+    description: app to be deployed
+  ref:
+    required: true
+    description: ref name where to run workflow (e.g. branch name)
+  tier:
+    required: true
+    description: tier the app is to be deployed to
+  github-token:
+    required: true
+    description: github token
+  owner:
+    required: false
+    description: owner of the repository
+    default: "bluecodecom"
+  repo:
+    required: false
+    description: repository name
+    default: "cobalt"
+
+runs:
+  using: "composite"
+  steps:
+    # nix build outputs a file called result
+    - name: Dispatch workflow
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          await github.rest.repos.createDeployment({
+            owner: '${{ inputs.owner }}',
+            repo: '${{ inputs.repo }}',
+            ref: '${{ inputs.ref }}',
+            payload: {
+              app: '${{ inputs.app }}',
+              tier: '${{ inputs.tier }}'
+            },
+            environment: '${{inputs.app}} - ${{ inputs.org }}-${{ inputs.tier }}',
+          })
